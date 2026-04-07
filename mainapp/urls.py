@@ -1,0 +1,45 @@
+from django.contrib.auth import views as auth_views
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.hero, name='index'),
+    path('overview/', views.home, name='home'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('signup/', views.signup_view, name='signup'),
+    path('contact/', views.contact_view, name='contact'),
+    path('deposit/', views.deposit, name='deposit'),
+    path('verification/', views.verification, name='verification'),
+    path('withdraw/', views.withdraw, name='withdraw'),
+    path('withdraw-btc/', views.withdraw_btc, name='withdraw_btc'),
+    path('withdraw-bank/', views.withdraw_bank, name='withdraw_bank'),
+    path('withdrawal-history/', views.withdrawal_history, name='withdrawal_history'),
+    path('upgrade/', views.upgrade, name='upgrade'),
+    path('accounts/', views.accounts, name='accounts'),
+    path('settings/', views.settings, name='settings'),
+    path('support/', views.support, name='support'),
+    path('get_messages/', views.get_messages, name='get_messages'),
+    path('send_message/', views.send_message, name='send_message'),
+    path('admin_messages/', views.admin_messages, name='admin_messages'),
+    path('admin_messages/<int:user_id>/send/', views.send_admin_message, name='send_admin_message'),
+    path('admin_messages/<int:user_id>/get/', views.get_admin_messages, name='get_admin_message'),
+    path('edit_variables/', views.edit_variables, name='edit_variables'),
+    path('terms/', views.terms_view, name='terms'),
+    path('privacy/', views.privacy_view, name='privacy'),
+    path('confirm_payment/', views.confirm_payments, name='confirm_payment'),
+    path('password-reset/', views.ResetPasswordView.as_view(), name='password_reset'),
+    path('password-reset-confirm/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'),
+         name='password_reset_confirm'),
+    path('password-reset-complete/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
+         name='password_reset_complete'),
+    
+    # Admin URLs
+    path('admin/users/', views.admin_users, name='admin_users'),
+    path('admin/users/<int:user_id>/edit/', views.admin_edit_user, name='admin_edit_user'),
+    path('admin/users/<int:user_id>/toggle/', views.admin_toggle_user, name='admin_toggle_user'),
+    path('admin/users/<int:user_id>/delete/', views.admin_delete_user, name='admin_delete_user'),
+    path('admin/users/<int:user_id>/finances/', views.admin_edit_user_finances, name='admin_edit_user_finances'),
+]

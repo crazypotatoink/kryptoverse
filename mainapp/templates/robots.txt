@@ -1,0 +1,33 @@
+User-agent: *
+
+# Block private/authenticated dashboard areas
+Disallow: /overview/
+Disallow: /deposit/
+Disallow: /withdraw/
+Disallow: /withdraw-btc/
+Disallow: /withdraw-bank/
+Disallow: /withdrawal-history/
+Disallow: /accounts/
+Disallow: /settings/
+Disallow: /verification/
+Disallow: /upgrade/
+Disallow: /support/
+Disallow: /confirm_payment/
+Disallow: /get_messages/
+Disallow: /send_message/
+
+# Block admin areas
+Disallow: /admin/
+Disallow: /admin_messages/
+Disallow: /edit_variables/
+
+# Allow public pages
+Allow: /
+Allow: /login/
+Allow: /signup/
+Allow: /contact/
+Allow: /terms/
+Allow: /privacy/
+
+# Sitemap
+Sitemap: https://kryptoverse.pro/sitemap.xml

@@ -1,0 +1,151 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Verification{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/withdraw.css' %}"> -->
+    <style>
+        .error-text {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-top: 0.25rem;
+            color: #dc2626;
+            background-color: #fee2e2;
+            border: 1px solid #fecaca;
+            border-radius: 5px;
+            padding: 5px 10px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}          
+        <main class="dashboard-main">
+            <section class="dashboard-section active">
+                <h2>Verification</h2>
+                <div class="settings-container" style="margin: 0 auto;">
+                    <form id="settingsForm" class="settings-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if verification_failed %}
+                            <div class="error-text">
+                                <p><i class="fas fas fa-user-times"></i> Verification Failed</p>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="username">
+                                <i class="fas fa-user"></i> Username
+                            </label>
+                            <input type="text" 
+                                   id="username"
+                                   name="username" 
+                                   value="{{user.username}}" 
+                                   required 
+                                   disabled>
+                            <p class="info-text">Your name as it appears on your account</p>
+                            {% if error %}
+                            <p class="error-text">{{error}}</p>
+                            {% endif %}
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email"
+                                   value="{{user.email}}" 
+                                   required>
+                            <p class="info-text">Your primary contact email address</p>
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="phone">
+                                <i class="fas fa-phone"></i> Phone Number
+                            </label>
+                            <input type="tel" 
+                                   id="phone" 
+                                   name="phone"
+                                   value="{{profile.phone_number}}"
+                                   placeholder="Enter your phone number">
+                            <p class="info-text">Used for account verification and security alerts</p>
+                        </div>
+                
+                        <!-- Identity Verification Fields -->
+                        <div class="form-group">
+                            <label for="id_number">
+                                <i class="fas fa-id-card"></i> Government-issued ID Number
+                            </label>
+                            <input type="text" 
+                                   id="id_number" 
+                                   name="id_number"
+                                   value="{{profile.id_number}}" 
+                                   placeholder="Enter your ID number" 
+                                   required>
+                            <p class="info-text">Used to verify your identity</p>
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="id_document">
+                                <i class="fas fa-upload"></i> Upload ID Document
+                            </label>
+                            <input type="file" 
+                                   id="id_document" 
+                                   name="id_document"
+                                   accept="image/*,.pdf"
+                                   required>
+                            <p class="info-text">Upload a clear image or PDF of your government-issued ID</p>
+                        </div>
+                
+                        <!-- Optional: Date of Birth -->
+                        <div class="form-group">
+                            <label for="dob">
+                                <i class="fas fa-calendar-alt"></i> Date of Birth
+                            </label>
+                            <input type="date" 
+                                   id="dob" 
+                                   name="dob"
+                                   value="{{profile.date_of_birth}}">
+                            <p class="info-text">Helps confirm your identity</p>
+                        </div>
+                
+                        <div class="form-group button-group">
+                            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-color); color: var(--text-color); border: none;">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>    
+                       
+            </section>
+        </main>
+
+         
+
+        
+
+
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/profile.js' %}"></script>
+        <script>
+            function showVerificationFailed() {
+                document.getElementById("verificationFailedModal").style.display = "block";
+            }
+
+            function closeModal() {
+                document.getElementById("verificationFailedModal").style.display = "none";
+            }
+        </script>
+
+        {% if verification_failed %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                showVerificationFailed();
+            });
+        </script>
+        {% endif %}
+
+{% endblock %}

@@ -1,0 +1,108 @@
+/* Settings Page Styles */
+.settings-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.settings-form {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input {
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.form-group input::placeholder {
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
+.info-text {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-top: 0.25rem;
+}
+
+.error-text {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-top: 0.25rem;
+    color: #dc2626;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.button-group {
+    margin-top: 1rem;
+}
+
+.btn.btn-primary {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 92, 231, 0.2);
+}
+
+.btn.btn-primary:active {
+    transform: translateY(0);
+}
+
+.section-header {
+    margin-bottom: 2rem;
+}
+
+/* Dark mode adjustments */
+.dark-mode .form-group input {
+    background: var(--card-bg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .settings-container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+}

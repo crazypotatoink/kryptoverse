@@ -1,0 +1,251 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Admin - Users{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <style>
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -1rem;
+            padding: 0 1rem;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .users-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .users-table tr:hover {
+            background: var(--hover-bg);
+        }
+
+        .users-table td {
+            text-align: center;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 4px;
+        }
+
+        .btn-edit {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .user-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .admin-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .search-box form {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .users-table th:nth-child(3),
+            .users-table td:nth-child(3),
+            .users-table th:nth-child(4),
+            .users-table td:nth-child(4) {
+                display: none;
+            }
+
+            .btn-small {
+                padding: 0.35rem 0.5rem;
+            }
+
+            .user-actions {
+                display: flex;
+                gap: 0.25rem;
+            }
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .search-box button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main class="dashboard-main">
+        <section class="dashboard-section active">
+            <div class="admin-header">
+                <h2>User Management</h2>
+                <div class="search-box">
+                    <form action="/admin/users/" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="name" placeholder="Search users..." id="searchInput">
+                        <button type="submit" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    <div>
+                        <button type="button" id="searchBtn" onclick="window.location.href=`{% url 'admin_messages' %}`">
+                            <i class="fas fa-message"></i> Messages
+                        </button>
+                        <button type="button" id="searchBtn" onclick="window.location.href=`{% url 'edit_variables' %}`">
+                            <i class="fas fa-cog"></i> Edit Variables
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Date Joined</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    {% if profiles %}
+                    <tbody>
+                        {% for profile in profiles %}
+                        <tr>
+                            <td>{{ profile.user.username }}</td>
+                            <td>{{ profile.user.email }}</td>
+                            <td>{{ profile.phone_number|default:"-" }}</td>
+                            <td>{{ profile.user.date_joined|date:"M d, Y" }}</td>
+                            <td>
+                                <span class="user-status {% if user.is_active %}status-active{% else %}status-inactive{% endif %}">
+                                    {% if profile.user.is_active %}Active{% else %}Inactive{% endif %}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="user-actions">
+                                    <a href="{% url 'admin_edit_user' profile.user.id %}" class="btn-small btn-edit" title="Edit User">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'admin_edit_user_finances' profile.user.id %}" class="btn-small btn-edit" style="background: #4f46e5;" title="Edit Finances">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </a>
+                                    <form method="post" action="{% url 'admin_delete_user' profile.user.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-delete" title="Delete User" onclick="return confirm('Are you sure you want to delete this user?');">
+                                            <i class="fas fa-trash-alt"></i>
+                                            
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% else %}
+                    <tbody>
+                        <tr>
+                            <td colspan="6" style="text-align: center;">No users found.</td>
+                        </tr>
+                    </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+    
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}KryptoVerse - Your Crypto Trading Hub{% endblock %}
+
+{% block content %}
+<main class="landing-page">
+    <section class="hero-section">
+        <div class="hero-grid">
+            <div class="hero-text fade-in-up">
+                <h1 class="gradient-text">Welcome to <br />KryptoVerse</h1>
+                <p class="hero-subtitle">Your reliable gateway to smart crypto trading and seamless asset management.
+                </p>
+                <div class="cta-buttons-left">
+                    <a href="{% url 'signup' %}" class="btn primary btn-lg">Get Started</a>
+                    <a href="{% url 'login' %}" class="btn secondary btn-lg">Log In</a>
+                </div>
+            </div>
+            <div class="hero-graphics fade-in-up" style="animation-delay: 0.2s;">
+                <div class="abstract-graphic">
+                    <div class="circle-1"></div>
+                    <div class="circle-2"></div>
+                    <div class="glass-orb">
+                        <i class="fab fa-bitcoin"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero-features" style="margin-top: 4rem; padding: 0 5%;">
+        <div class="features-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+            <div class="feature-card glass-panel" style="padding: 2rem;">
+                <div class="icon-wrapper"><i class="fas fa-wallet"></i></div>
+                <h3>Secure Wallet</h3>
+                <p>Keep your digital assets safe with our ultra-secure wallet solutions and multi-layer encryption.</p>
+            </div>
+            <div class="feature-card glass-panel" style="padding: 2rem;">
+                <div class="icon-wrapper"><i class="fas fa-chart-line"></i></div>
+                <h3>Live Trading</h3>
+                <p>Access real-time charts and market data to trade like a pro with zero latency.</p>
+            </div>
+            <div class="feature-card glass-panel" style="padding: 2rem;">
+                <div class="icon-wrapper"><i class="fas fa-exchange-alt"></i></div>
+                <h3>Quick Transfers</h3>
+                <p>Send and receive crypto instantly across the globe with top-tier speed.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero-about glass-panel" id="about">
+        <div class="about-grid">
+            <div class="about-text">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">What is <span
+                        class="gradient-text">KryptoVerse?</span></h2>
+                <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1rem;">KryptoVerse is a forward-thinking
+                    cryptocurrency platform dedicated to reshaping the way individuals and institutions interact with
+                    digital assets.</p>
+                <p style="font-size: 1.1rem; line-height: 1.6;">We don't just facilitate transactions, we build trust
+                    backed by state-of-the-art infrastructure.</p>
+            </div>
+            <div class="about-list">
+                <ul>
+                    <li><i class="fas fa-check-circle text-success"></i>
+                        <div><strong>Real-Time Market Access:</strong> Trade with confidence using live data.</div>
+                    </li>
+                    <li><i class="fas fa-check-circle text-success"></i>
+                        <div><strong>Institutional-Grade Wallet:</strong> Your keys, your crypto, maximum security.
+                        </div>
+                    </li>
+                    <li><i class="fas fa-check-circle text-success"></i>
+                        <div><strong>Financial Autonomy:</strong> Making DeFi accessible and reliable for everyone.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero-associations" style="text-align: center; margin: 5rem 0;">
+        <h2 style="margin-bottom: 3rem;">Trusted by Global Partners</h2>
+        <div class="marquee-wrapper">
+            <div class="marquee">
+                <img src="{% static 'images/tesla.png' %}" alt="Tesla">
+                <img src="{% static 'images/google.png' %}" alt="Google">
+                <img src="{% static 'images/spacex.png' %}" alt="SpaceX">
+                <img src="{% static 'images/microsoft.png' %}" alt="Microsoft">
+                <!-- Duplicate for seamless scroll -->
+                <img src="{% static 'images/tesla.png' %}" alt="Tesla">
+                <img src="{% static 'images/google.png' %}" alt="Google">
+                <img src="{% static 'images/spacex.png' %}" alt="SpaceX">
+                <img src="{% static 'images/microsoft.png' %}" alt="Microsoft">
+            </div>
+        </div>
+    </section>
+
+    <section class="hero-investment">
+        <h2>Investment Opportunities</h2>
+        <p class="section-subtitle">Explore our diverse range of investment options tailored to meet your financial
+            goals.</p>
+        <div class="investments"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div class="investment glass-panel" style="padding: 2.5rem 2rem;">
+                <span class="tier-badge">Basic</span>
+                <h3 style="font-size: 2.5rem; margin: 1rem 0;">$499</h3>
+                <p class="duration">24 hour duration</p>
+                <hr style="border-color: var(--card-border); margin: 1.5rem 0;">
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> 5% interest rate</li>
+                    <li><i class="fas fa-check"></i> Minimum deposit</li>
+                    <li><i class="fas fa-check"></i> 1% withdrawal fee</li>
+                </ul>
+                <button class="btn secondary block">Select Plan</button>
+            </div>
+            <div class="investment glass-panel" style="padding: 2.5rem 2rem;">
+                <span class="tier-badge">Gold</span>
+                <h3 style="font-size: 2.5rem; margin: 1rem 0;">$2,499</h3>
+                <p class="duration">24 hour duration</p>
+                <hr style="border-color: var(--card-border); margin: 1.5rem 0;">
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> 5% interest rate</li>
+                    <li><i class="fas fa-check"></i> Minimum deposit</li>
+                    <li><i class="fas fa-check"></i> 1% withdrawal fee</li>
+                </ul>
+                <button class="btn secondary block">Select Plan</button>
+            </div>
+            <div class="investment glass-panel highlight-tier" style="padding: 2.5rem 2rem;">
+                <div class="popular-tag">Most Popular</div>
+                <span class="tier-badge">Platinum</span>
+                <h3 style="font-size: 2.5rem; margin: 1rem 0;">$10,999</h3>
+                <p class="duration">24 hour duration</p>
+                <hr style="border-color: var(--card-border); margin: 1.5rem 0;">
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> 5% interest rate</li>
+                    <li><i class="fas fa-check"></i> Minimum deposit</li>
+                    <li><i class="fas fa-check"></i> 1% withdrawal fee</li>
+                </ul>
+                <button class="btn primary block">Select Plan</button>
+            </div>
+            <div class="investment glass-panel" style="padding: 2.5rem 2rem;">
+                <span class="tier-badge">Investor</span>
+                <h3 style="font-size: 2.5rem; margin: 1rem 0;">$16,000</h3>
+                <p class="duration">24 hour duration</p>
+                <hr style="border-color: var(--card-border); margin: 1.5rem 0;">
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> 5% interest rate</li>
+                    <li><i class="fas fa-check"></i> Minimum deposit</li>
+                    <li><i class="fas fa-check"></i> 1% withdrawal fee</li>
+                </ul>
+                <button class="btn secondary block">Select Plan</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}

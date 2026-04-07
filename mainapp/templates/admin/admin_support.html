@@ -1,0 +1,32 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Admin Support{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock %}
+
+{% block content %}  
+<main class="dashboard-main">
+    <section class="dashboard-section active">
+        <h2>Admin Support Chat</h2>
+
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box" data-user-id="{{ user.id }}">
+                <!-- Messages will appear here -->
+            </div>
+            <form id="chat-form" class="chat-form" method="post" action="{% url 'send_admin_message' user.id %}">
+                {% csrf_token %}
+                <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" required />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+    </section>
+</main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+    <script src="{% static 'js/admin_chat.js' %}"></script>
+{% endblock %}

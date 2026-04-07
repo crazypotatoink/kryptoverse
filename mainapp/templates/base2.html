@@ -1,0 +1,361 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}KryptoVerse{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="light-mode">
+
+    <!-- ── Domain Change Announcement Banner ── -->
+    <div id="announcement-banner" class="announcement-banner" role="alert" aria-live="polite">
+        <div class="announcement-inner">
+            <span class="announcement-icon"><i class="fas fa-bullhorn"></i></span>
+            <p class="announcement-text">
+                <strong>Important Notice:</strong>
+                We will be migrating to a new domain soon.
+                Please update your bookmarks to
+                <a href="https://kryptoversehq.com" target="_blank" rel="noopener">kryptoversehq.com</a>
+                — your account and data remain fully intact.
+            </p>
+            <button class="announcement-close" id="closeBanner" aria-label="Dismiss notice">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .announcement-banner {
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            box-shadow: 0 2px 12px rgba(79, 70, 229, 0.4);
+            animation: bannerSlideDown 0.4s ease-out both;
+        }
+
+        @keyframes bannerSlideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0);     opacity: 1; }
+        }
+
+        .announcement-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .announcement-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+        .announcement-text {
+            flex: 1;
+            margin: 0;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .announcement-text a {
+            color: #fff;
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .announcement-text a:hover { opacity: 0.85; }
+
+        .announcement-close {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s ease;
+            font-size: 0.78rem;
+        }
+
+        .announcement-close:hover { background: rgba(255,255,255,0.35); }
+
+        .announcement-banner.hidden { display: none; }
+
+        @media (max-width: 600px) {
+            .announcement-text { font-size: 0.8rem; }
+        }
+    </style>
+
+    <script>
+        (function () {
+            var banner = document.getElementById('announcement-banner');
+            if (localStorage.getItem('kv_domain_notice_dismissed') === '1') {
+                banner.classList.add('hidden');
+            }
+            document.getElementById('closeBanner').addEventListener('click', function () {
+                banner.classList.add('hidden');
+                localStorage.setItem('kv_domain_notice_dismissed', '1');
+            });
+        })();
+    </script>
+
+    <div class="animated-background">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-text">KryptoVerse</span>
+        </div>
+        <div class="nav-links">
+            {% if request.user.is_staff %}
+            <a href="{% url 'admin_users' %}"
+                class="{% if 'admin_' in request.resolver_match.url_name %}active{% endif %}">
+                <i class="fas fa-shield-alt"></i> Admin
+            </a>
+            {% endif %}
+            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                <i class="fas fa-chart-line"></i> Overview
+            </a>
+            <a href="{% url 'deposit' %}"
+                class="{% if request.resolver_match.url_name == 'deposit' %}active{% endif %}">
+                <i class="fas fa-wallet"></i> Deposit
+            </a>
+            <a href="{% url 'withdraw' %}"
+                class="{% if 'withdraw' in request.resolver_match.url_name %}active{% endif %}">
+                <i class="fas fa-receipt"></i> Withdraw
+            </a>
+            <a href="{% url 'accounts' %}"
+                class="{% if request.resolver_match.url_name == 'accounts' %}active{% endif %}">
+                <i class="fas fa-user-circle"></i>
+                Accounts
+            </a>
+            <a href="{% url 'verification' %}"
+                class="{% if request.resolver_match.url_name == 'verification' %}active{% endif %}">
+                <i class="fas fa-user-circle"></i>
+                Verification
+            </a>
+            <a href="{% url 'settings' %}"
+                class="{% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+            <a href="{% url 'logout' %}" class="logout-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+        <div class="theme-toggle" style="margin-right: 10px;">
+            <i class="fas fa-moon"></i>
+        </div>
+        <a style="padding: 5px 10px; background-color: var(--primary-color); color: #ffffff;  width: 110px; border-radius: 5px; text-decoration: none;" href="{% url 'deposit' %}"
+                class="{% if request.resolver_match.url_name == 'deposit' %}active{% endif %}">
+                <i class="fas fa-wallet"></i> Deposit
+        </a>
+        <button class="mobile-menu" id="menuToggle" aria-label="Toggle Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    {% if user.profile.profile_picture %}
+                    <img src="{{ user.profile.profile_picture }}" alt="User Avatar" class="user-avatar-image" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ddd;">
+                    {% else %}
+                    <i class="fas fa-user"></i>
+                    {% endif %}
+                </div>
+                <h3 class="user-name">{{user.username}}</h3>
+                <p class="user-email">{{user.email}}</p>
+            </div>
+            <nav class="dashboard-nav">
+                {% if request.user.is_staff %}
+                <a href="{% url 'admin_users' %}"
+                    class="{% if 'admin_' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-shield-alt"></i> Admin
+                </a>
+                {% endif %}
+                <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i> Overview
+                </a>
+                <a href="{% url 'deposit' %}"
+                    class="{% if request.resolver_match.url_name == 'deposit' %}active{% endif %}">
+                    <i class="fas fa-wallet"></i> Deposit
+                </a>
+                <a href="{% url 'withdraw' %}"
+                    class="{% if 'withdraw' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-receipt"></i> Withdraw
+                </a>
+                <a href="{% url 'accounts' %}"
+                    class="{% if request.resolver_match.url_name == 'accounts' %}active{% endif %}">
+                    <i class="fas fa-user-circle"></i>
+                    Accounts
+                </a>
+                <a href="{% url 'verification' %}"
+                    class="{% if request.resolver_match.url_name == 'verification' %}active{% endif %}">
+                    <i class="fas fa-user-circle"></i>
+                    Verification
+                </a>
+                <a href="{% url 'settings' %}"
+                    class="{% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="{% url 'logout' %}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </aside>
+        {% block content %}
+        {% endblock %}
+        {% if 'support' not in request.resolver_match.url_name %}
+        <div class="support">
+            <a href="{% url 'support' %}"><i class="fas fa-headset"></i></a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>KryptoVerse</h4>
+                <p>Your trusted crypto trading platform</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} KryptoVerse. All rights reserved.</p>
+        </div>
+    </footer> -->
+
+    {% block scripts %}
+    <!-- <script src="{% static 'js/theme.js' %}"></script> -->
+    {% endblock %}
+
+    <script>
+        // Generate and set user initials
+        function generateInitials(name) {
+            if (!name) return 'KV';
+            const words = name.trim().split(/\s+/);
+            if (words.length >= 2) {
+                return (words[0][0] + words[1][0]).toUpperCase();
+            }
+            return (name.substring(0, 2)).toUpperCase();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userAvatar = document.querySelector('.user-avatar');
+            if (!userAvatar) return; // Exit if element not found
+
+            const userName = document.querySelector('.user-name')?.textContent || 'KryptoVerse User';
+
+            // Remove existing icon if present
+            const existingIcon = userAvatar.querySelector('i');
+            if (existingIcon) {
+                existingIcon.remove();
+            }
+
+            // Create and add initials
+            const initialsSpan = document.createElement('span');
+            initialsSpan.textContent = generateInitials(userName);
+            initialsSpan.classList.add('user-initials');
+            userAvatar.appendChild(initialsSpan);
+
+            // Add click handler for logout
+            const logoutLink = document.querySelector('.logout-link');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', (e) => {
+                    // The link now uses Django URL routing, no need for JavaScript handling
+                    // This is just for any additional logout logic you might want
+                    console.log('Logging out...');
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            const body = document.body;
+
+            function toggleMenu() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                body.classList.toggle('no-scroll');
+                menuToggle.classList.toggle('active');
+
+                // Toggle aria-expanded
+                const isExpanded = menuToggle.classList.contains('active');
+                menuToggle.setAttribute('aria-expanded', isExpanded);
+
+
+                // Force repaint to ensure transitions work
+                sidebar.offsetHeight;
+            }
+
+            menuToggle.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+
+            // Close menu when clicking a link (for mobile)
+            const mobileLinks = sidebar.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+                        e.preventDefault();
+                        toggleMenu();
+                        setTimeout(() => {
+                            window.location.href = link.href;
+                        }, 300);
+                    }
+                });
+            });
+
+            // Handle resize events
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        body.classList.remove('no-scroll');
+                        menuToggle.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', false);
+                    }
+                }, 100);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}SignUp{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="auth-container">
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Join KryptoVerse and start your crypto journey</p>
+
+            {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+            {% endif %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+            <form id="signupForm" class="auth-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="profile-picture-container" style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        {% if not profile.profile_picture %}
+                        <img id="profilePicturePreview" src="{{ profile.profile_picture }}" class="profile-picture user-avatar" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ddd;">
+                        {% else %}
+                        <img id="profilePicturePreview" src="{{ profile.profile_picture }}" class="profile-picture" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ddd;">
+                        {% endif %}
+                        <input type="file" 
+                            id="profilePicture" 
+                            name="profilePicture" 
+                            accept="image/*" 
+                            onchange="previewImage(event)" >
+                </div>
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Input your full name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <div class="input-group">
+                        <i class="fas fa-globe"></i>
+                        <input type="text" id="country" name="country" required placeholder="Enter your country">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <div class="input-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Enter your phone number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <div class="input-group">
+                        <i class="fas fa-venus-mars"></i>
+                        <select id="gender" name="gender" required style="width: 100%; padding: 10px; padding-left: 40px; border-radius: 5px; border: 1px solid #ccc; color: #494949;">
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" required placeholder="Create a password">
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="remember-me" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                        <input type="checkbox" name="terms" required>
+                        I agree to the Terms of Service and Privacy Policy
+                    </label>
+                    <a href="{% url 'terms' %}" class="policy-link">Terms of Service</a>
+                    <a href="{% url 'privacy' %}" class="policy-link">Privacy Policy</a>
+                
+     
+                <div class="form-group button-group">
+                    <button type="submit" class="btn primary auth-btn">
+                        <i class="fas fa-user-plus"></i>
+                        Create Account
+                    </button>
+                </div>
+            </form>
+
+            <p class="auth-redirect">
+                Already have an account? <a href="{% url 'login' %}">Login</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/auth.js' %}"></script>
+
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const file = input.files[0];
+            const preview = document.getElementById('profilePicturePreview');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "{{ profile.profile_picture.url }}"; // Reset to default if no file selected
+            }
+        }
+    </script>
+
+{% endblock %}

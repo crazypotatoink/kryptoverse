@@ -1,0 +1,250 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Deposit{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="dashboard-main">
+    <section class="dashboard-section active">
+        <h2>Deposit Cryptocurrency</h2>
+        <div class="balance-cards">
+            <div class="balance-card crypto-deposit" data-crypto="BTC">
+                <i class="fab fa-bitcoin"></i>
+                <h3>Bitcoin</h3>
+                <button class="btn btn-primary deposit-btn">Deposit BTC</button>
+            </div>
+            <div class="balance-card crypto-deposit" data-crypto="ETH">
+                <i class="fab fa-ethereum"></i>
+                <h3>Ethereum</h3>
+                <button class="btn btn-primary deposit-btn">Deposit ETH</button>
+            </div>
+            <div class="balance-card crypto-deposit" data-crypto="LTC">
+                <i class="fas fa-litecoin-sign"></i>
+                <h3>Litecoin</h3>
+                <button class="btn btn-primary deposit-btn">Deposit LTC</button>
+            </div>
+            <div class="balance-card crypto-deposit" data-crypto="USDT">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>USDT(ERC20)</h3>
+                <button class="btn btn-primary deposit-btn">Deposit USDT</button>
+            </div>
+        </div>
+        <div class="balance-card" onclick="document.location.href = 'https://www.paymo.live'">
+            <i class="fas fa-credit-card"></i>
+            <h3>Pay with Credit / Debit Card</h3>
+            <button class="btn btn-primary deposit-btn">Deposit</button>
+        </div>
+        <div class="balance-card crypto-deposit" data-crypto="BANK">
+            <i class="fas fa-coins"></i>
+            <h3>Bank Transfer</h3>
+            <button class="btn btn-primary deposit-btn">Deposit</button>
+        </div>
+        <div class="balance-card crypto-deposit" data-crypto="BANK" style="margin-top: 30px;">
+            <i class="fas fa-receipt"></i>
+            <h3>Confirm Payment</h3>
+            <button class="btn btn-primary deposit-btn2" onclick="window.location.href = '/confirm_payment/'">Confirm</button>
+        </div>
+    </section>
+</main>
+</div>
+
+<!-- Deposit Modal -->
+<div id="depositModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Deposit <span id="selectedCrypto">BTC</span></h2>
+        <div class="qr-code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ wallets.btc }}&amp;size=150x150" alt="Qr Code" title="Qr Code" />
+        </div>
+        <div class="wallet-address">
+            <p>Wallet Address:</p>
+            <div class="address-copy">
+                <input type="text" value="bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh" readonly>
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+            </div>
+        </div>
+        <div class="deposit-warning">
+            <p><i class="fas fa-exclamation-triangle"></i> Send only <span id="selectedCryptoWarning">BTC</span> to this
+                address</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Modal Functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('depositModal');
+        const depositBtns = document.querySelectorAll('.deposit-btn');
+        const closeBtn = modal.querySelector('.close');
+        const copyBtn = modal.querySelector('.copy-btn');
+        const addressInput = modal.querySelector('.address-copy input');
+
+        function showModal() {
+            modal.style.display = 'block';
+            // Trigger reflow
+            modal.offsetHeight;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideModal() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        depositBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const crypto = btn.closest('.crypto-deposit').dataset.crypto;
+                const selectedCrypto = modal.querySelector('#selectedCrypto');
+                const selectedCryptoWarning = modal.querySelector('#selectedCryptoWarning');
+                const addressInput = modal.querySelector('.address-copy input');
+                const qrcode = modal.querySelector('.qr-code img');
+                const walletAddress = modal.querySelector('.wallet-address p');
+
+                selectedCrypto.textContent = crypto;
+                selectedCryptoWarning.textContent = crypto;
+
+                
+                if (crypto === 'USDT') {
+                    addressInput.value = "{{ wallets.usdt }}";
+                    walletAddress.textContent = "Wallet Address:";
+                    qrcode.src = `https://api.qrserver.com/v1/create-qr-code/?data={{ wallets.usdt }}&size=150x150`;
+                } else if (crypto === 'BTC') {
+                    walletAddress.textContent = "Wallet Address:";
+                    addressInput.value = "{{ wallets.btc }}";
+                    qrcode.src = `https://api.qrserver.com/v1/create-qr-code/?data={{ wallets.btc }}&size=150x150`;
+                } else if (crypto === 'ETH') {
+                    walletAddress.textContent = "Wallet Address:";
+                    addressInput.value = "{{ wallets.eth }}";
+                    qrcode.src = `https://api.qrserver.com/v1/create-qr-code/?data={{ wallets.eth }}&size=150x150`;
+                } else if (crypto === 'LTC') {
+                    walletAddress.textContent = "Wallet Address:";
+                    addressInput.value = "{{ wallets.ltc }}";
+                    qrcode.src = `https://api.qrserver.com/v1/create-qr-code/?data={{ wallets.ltc }}&size=150x150`;
+                } else if (crypto === 'BANK') {
+                    walletAddress.textContent = "Contact Support at:";
+                    addressInput.value = "help.kryptoverse@gmail.com";
+                    qrcode.src = `https://api.qrserver.com/v1/create-qr-code/?data=help.kryptoverse@gmail.com&size=150x150`;
+                } 
+                // else if (crypto === 'PAYMO') {
+                //     walletAddress.textContent = "Paymo Link: Make Payments and send proof of payments to help.kryptoverse@gmail.com";
+                //     addressInput.value = "https://www.paymo.live";
+                //     qrcode.src = `https://api.qrserver.com/v1/create-qr-code/?data=https://www.paymo.live&size=150x150`;
+                // }
+                
+
+                showModal();
+            });
+        });
+
+        closeBtn.addEventListener('click', hideModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+            addressInput.select();
+            document.execCommand('copy');
+
+            // Show feedback
+            const icon = copyBtn.querySelector('i');
+            const originalClass = icon.className;
+            icon.className = 'fas fa-check';
+            copyBtn.style.backgroundColor = 'var(--success-color)';
+
+            setTimeout(() => {
+                icon.className = originalClass;
+                copyBtn.style.backgroundColor = '';
+            }, 2000);
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                hideModal();
+            }
+        });
+    });
+
+    // Deposit Modal
+    const depositModal = document.getElementById('depositModal');
+    const depositBtns = document.querySelectorAll('.deposit-btn');
+    const closeModal = document.querySelector('.close-modal');
+
+    depositBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const crypto = btn.parentElement.getAttribute('data-crypto');
+            const cryptoName = btn.parentElement.querySelector('h3').textContent;
+
+            // Update modal content
+            document.querySelectorAll('.crypto-name').forEach(el => {
+                el.textContent = cryptoName;
+            });
+
+            // Show modal
+            depositModal.style.display = 'block';
+        });
+    });
+
+    closeModal.addEventListener('click', () => {
+        depositModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === depositModal) {
+            depositModal.style.display = 'none';
+        }
+    });
+
+    // Copy wallet address
+    const copyBtn = document.querySelector('.copy-btn');
+    copyBtn.addEventListener('click', () => {
+        const addressInput = document.querySelector('.address-copy input');
+        addressInput.select();
+        document.execCommand('copy');
+
+        // Show feedback
+        copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+        setTimeout(() => {
+            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+        }, 2000);
+    });
+
+    // Handle transfer form submission
+    const transferForm = document.getElementById('transferForm');
+    if (transferForm) {
+        transferForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const submitBtn = transferForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            // Simulate transfer process
+            setTimeout(() => {
+                alert('Transfer initiated successfully!');
+                transferForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+    }
+
+</script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+
+
+{% endblock %}

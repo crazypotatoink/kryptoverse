@@ -1,0 +1,76 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Admin Support{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="dashboard-main">
+    <section class="dashboard-section active">
+        <div class="admin-header">
+            <h2>User Management</h2>
+            <div class="settings-container">
+                <form id="settingsForm" class="settings-form" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="btc">
+                            <i class="fab fa-btc"></i> BTC wallet Address
+                        </label>
+                        <input type="text" 
+                               id="username"
+                               name="btc" 
+                               value="{{ wallets.btc }}" 
+                               required>
+                        <p class="info-text">Your btc wallet address that appears on user account</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="eth">
+                            <i class="fab fab fa-ethereum"></i> ETH wallet Address
+                        </label>
+                        <input type="text" 
+                               id="username"
+                               name="eth" 
+                               value="{{ wallets.eth }}" 
+                               required>
+                        <p class="info-text">Your eth wallet address that appears on user account</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="ltc">
+                            <i class="fas fa-litecoin-sign"></i> LTC wallet Address
+                        </label>
+                        <input type="text" 
+                               id="username"
+                               name="ltc" 
+                               value="{{ wallets.ltc }}" 
+                               required>
+                        <p class="info-text">Your ltc wallet address that appears on user account</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="usdt">
+                            <i class="fab fas fa-dollar-sign"></i> USDT wallet Address
+                        </label>
+                        <input type="text" 
+                               id="username"
+                               name="usdt" 
+                               value="{{ wallets.usdt }}" 
+                               required>
+                        <p class="info-text">Your usdt wallet address that appears on user account</p>
+                    </div>
+                    <div class="form-group button-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

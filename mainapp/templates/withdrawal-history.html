@@ -1,0 +1,63 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Withdrawal History{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/withdraw.css' %}">
+{% endblock %}
+
+{% block content %} 
+
+        <main class="dashboard-main">
+            <section class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Withdrawal History</h2>
+                    <a href="{% url 'withdraw' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Withdraw Options
+                    </a>
+                </div>
+                <div class="table-container">
+                    <table class="data-table withdrawal-history">
+                        <thead>
+                            <tr>
+                                <th>Bank Name</th>
+                                <th>Account Name</th>
+                                <th>Account Number</th>
+                                <th>BTC Address</th>
+                                <th>USD Amount</th>
+                                <th>BTC Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                <td>Bank of America</td>
+                                <td>John Doe</td>
+                                <td>1234567890</td>
+                                <td class="address">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</td>
+                                <td class="amount">$500.00</td>
+                                <td class="amount">0.02500000 BTC</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>Chase Bank</td>
+                                <td>Jane Doe</td>
+                                <td>9876543210</td>
+                                <td class="address">3E8TRoFCukjL3azbU62zhoXStZpVnC31PK</td>
+                                <td class="amount">$1,000.00</td>
+                                <td class="amount">0.05000000 BTC</td>
+                                <td><span class="status-badge success">Success</span></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+
+{% endblock %}

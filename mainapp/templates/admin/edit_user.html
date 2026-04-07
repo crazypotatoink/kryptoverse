@@ -1,0 +1,259 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Admin - Edit User{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <style>
+        .edit-user-form {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .edit-user-form {
+                padding: 1rem;
+                margin: 0;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-group input {
+                padding: 0.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-save,
+            .btn-cancel {
+                width: 100%;
+                padding: 0.75rem;
+                text-align: center;
+            }
+
+            .checkbox-group {
+                padding: 0.5rem 0;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        .error-message {
+            color: #dc2626;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-cancel {
+            background: var(--border-color);
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-save:hover, .btn-cancel:hover {
+            opacity: 0.9;
+        }
+
+        .plan-selection {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .plan-selection label {
+            margin-right: 1rem;
+            font-size: 1rem;
+            color: var(--text-color);
+            height: 50px;
+            width: 100px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main class="dashboard-main">
+        <section class="dashboard-section active">
+            <div class="admin-header">
+                <h2>Edit User</h2>
+            </div>
+
+            <form method="post" class="edit-user-form">
+                {% csrf_token %}
+                {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="username">Profile Picture</label>
+                    {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture }}" alt="User Avatar" class="user-avatar-image" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #ddd;">
+                    {% else %}
+                    <i class="fas fa-user"></i>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" value="{{ target_user.username }}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Full Name</label>
+                    <input type="email" id="email" name="email" value="{{ profile.full_name }}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ target_user.email }}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Gender</label>
+                    <input type="email" id="email" name="email" value="{{ profile.gender }}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Phone</label>
+                    <input type="email" id="email" name="email" value="{{ profile.phone_number|default:'---' }}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Country</label>
+                    <input type="email" id="email" name="email" value="{{ profile.country }}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="is_active" name="is_active" {% if target_user.is_active %}checked{% endif %}>
+                        <label for="is_active">Active Account</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="is_verified" name="is_verified" {% if profile.is_verified %}checked{% endif %}>
+                        <label for="is_verified">Verify Account</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p>Choose the user's plan:</p>
+                    <div class="plan-selection">
+                        <label>
+                            <input type="radio" name="plan" value="basic" onchange="updateHiddenInput(this)"> Basic
+                        </label><br>
+                
+                        <label>
+                            <input type="radio" name="plan" value="gold" onchange="updateHiddenInput(this)"> Gold
+                        </label><br>
+                
+                        <label>
+                            <input type="radio" name="plan" value="platinum" onchange="updateHiddenInput(this)"> Platinum
+                        </label><br>
+                
+                        <label>
+                            <input type="radio" name="plan" value="investor" onchange="updateHiddenInput(this)"> Investor
+                        </label><br>
+                
+                        <!-- Hidden input to store selected plan -->
+                        <input type="hidden" name="selected_plan" id="selected_plan">
+                        <input type="hidden" value="{{profile.tier|lower}}" id="profile_tier">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <a href="{% url 'admin_users' %}" class="btn-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const savedValue = document.getElementById('profile_tier').value;  // 👈 Set this to your actual saved value
+        console.log(savedValue)
+        // Pre-select the matching radio button and update hidden input
+        document.querySelectorAll('input[name="plan"]').forEach(radio => {
+        if (radio.value === savedValue) {
+            radio.checked = true;
+            updateHiddenInput(radio);
+        }
+        });
+
+        function updateHiddenInput(radio) {
+            document.getElementById("selected_plan").value = radio.value;
+        }
+    </script>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

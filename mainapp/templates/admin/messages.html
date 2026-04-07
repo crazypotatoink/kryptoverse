@@ -1,0 +1,139 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Messages{% endblock %}
+{% block extra_css %}
+    <style>
+        .messages-container {
+            height: fit-content;
+            width: 70vw;
+            overflow-y: hidden;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-item {
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            position: relative;
+            width: 90%;
+            height: fit-content;
+            background-color: var(--card-bg);
+            word-wrap: break-word;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .message-item:hover {
+            box-shadow: 0 4px 8px var(--shadow-color);
+            cursor: pointer;
+        }
+
+        .message-item strong {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .message-item p {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        .message-item span {
+            right: 10px;
+            /* background-color: aqua; */
+            width: 100%;
+        }
+        /* ── Pagination ── */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2.5rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pagination a,
+        .pagination .page-current {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .pagination a {
+            background: color-mix(in srgb, var(--card-bg) 60%, transparent);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+            color: var(--text-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .pagination a:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: transparent;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+        }
+
+        .pagination .page-current {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+            pointer-events: none;
+            padding: 0.5rem 1.4rem;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <main class="dashboard-main">
+        <section class="dashboard-section active">
+            <h2>Messages</h2>
+
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="message-item {{ message.type }}" onclick="window.location.href=`{% url 'send_admin_message' message.user.id %}`">
+                        <strong>{{message.user.username}}</strong>
+                        <p>{{ message.text }}</p>
+                        <span class="timestamp">{{ message.timestamp }}</span>
+                    </div>
+                {% empty %}
+                    <p>No messages available.</p>
+                {% endfor %}
+
+                <div class="pagination">
+                    {% if messages.has_previous %}
+                        <a href="?page=1">&laquo; First</a>
+                        <a href="?page={{ messages.previous_page_number }}">&#8249; Prev</a>
+                    {% endif %}
+
+                    <span class="page-current">
+                        Page {{ messages.number }} of {{ messages.paginator.num_pages }}
+                    </span>
+
+                    {% if messages.has_next %}
+                        <a href="?page={{ messages.next_page_number }}">Next &#8250;</a>
+                        <a href="?page={{ messages.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

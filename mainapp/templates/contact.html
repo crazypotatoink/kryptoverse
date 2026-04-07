@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="contact-container" style="margin-top: 50px; padding-top: 20px;">
+        <div class="contact-header">
+            <h1>Get in Touch</h1>
+            <p>We're here to help and answer any questions you might have</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <div class="info-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Visit Us</h3>
+                    <p>456 Blockchain Avenue</p>
+                    <p>Austin, Texas, USA</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Call Us</h3>
+                    <p>+1 (601) 348-1049</p>
+                    <p>Mon-Fri, 9am-6pm</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Us</h3>
+                    <p>help.kryptoverse@gmail.com</p>
+                    <p>24/7 Support</p>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="name" name="name" required placeholder="Enter your name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <div class="input-group">
+                            <i class="fas fa-tag"></i>
+                            <input type="text" id="subject" name="subject" required placeholder="Enter subject">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <div class="input-group">
+                            <textarea id="message" name="message" required placeholder="Enter your message" rows="5"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn primary contact-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="contact-map">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.2029221524194!2d-97.74306068487547!3d30.267153000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b59dfc5b4b29%3A0x3c4cfe88a39d38cb!2s456%20Blockchain%20Ave%2C%20Austin%2C%20TX%2078701%2C%20USA!5e0!3m2!1sen!2sus!4v1712928200000!5m2!1sen!2sus"
+                width="100%" 
+                height="400" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+
+{% endblock %}

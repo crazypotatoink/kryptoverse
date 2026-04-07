@@ -1,0 +1,429 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<style>
+    .profile-info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+        padding: 1.5rem 1rem;
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--card-bg) 55%, transparent);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid color-mix(in srgb, var(--text-color) 8%, transparent);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 460px;
+        background: color-mix(in srgb, var(--card-bg) 50%, transparent);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid color-mix(in srgb, var(--text-color) 8%, transparent);
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .profile-card-background {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        height: 90px;
+        width: 100%;
+        position: relative;
+    }
+
+    .profile-card-background::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.1);
+        backdrop-filter: blur(2px);
+    }
+
+    .profile-card-content {
+        padding: 1.5rem 1.25rem;
+        text-align: center;
+        position: relative;
+        top: -30px;
+    }
+
+    .profile-card-content img {
+        border: 3px solid var(--primary-color) !important;
+        box-shadow: 0 4px 16px rgba(79,70,229,0.3);
+    }
+
+    .profile-type i {
+        font-size: 2.2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.4rem;
+        display: block;
+    }
+
+    .profile-type h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+        color: var(--text-color);
+    }
+
+    .profile-type p {
+        font-size: 0.85rem;
+        color: var(--tag-color);
+        margin: 5px 0;
+    }
+
+    .profile-type b {
+        color: #ffffff;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-size: 0.8rem;
+    }
+
+    .upgrade-btn {
+        margin-top: 1rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.5rem;
+        font-size: 0.88rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+    }
+
+    .upgrade-btn i {
+        margin-left: 6px;
+        transition: transform 0.3s ease;
+    }
+
+    .upgrade-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        filter: brightness(1.05);
+    }
+
+    .upgrade-btn:hover i {
+        transform: translateX(4px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="dashboard-main">
+    <section class="dashboard-section active">
+        <h2>Dashboard Overview</h2>
+        <div class="profile-info">
+            <div class="profile-card">
+                <div class="profile-card-background"></div>
+                <div class="profile-card-content">
+                    <div class="profile-type">
+                        {% if profile.profile_picture %}
+                        <img id="profilePicturePreview" src="{{ profile.profile_picture }}" class="profile-picture" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; border: 2px solid #ddd;">
+                        {% else %}
+                        <i class="fas fa-user"></i>
+                        {% endif %}
+                        <h3>{{ profile.user.username }}</h3>
+                        <p>Email: {{ profile.user.email }}</p>
+                        <p>Investment Plan: <b>{{ profile.tier|upper }}</b></p>
+                        <p>Account Status: <b>
+                            {% if profile.is_verified %}
+                                Verified
+                            {% else %}
+                                Unverified
+                            {% endif %}
+                        </b></p>
+                    </div>
+        
+                    <button class="upgrade-btn" onclick="window.location.href = '/upgrade/'">
+                        Upgrade Account
+                        <i class="fas fa-arrow-right" ></i>
+                    </button>
+                </div>
+            </div>
+        </div>        
+        <div class="balance-cards">
+            <div class="balance-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Invested</h3>
+                <p class="balance">${{profile.invested}} USD</p>
+                <p class="balance-usd">{{profile.invested}} USDT</p>
+            </div>
+            <div class="balance-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Profit</h3>
+                <p class="balance">${{profile.profit}} USD</p>
+                <p class="balance-usd">{{profile.profit}} USDT</p>
+            </div>
+            <div class="balance-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Bonus</h3>
+                <p class="balance">${{profile.bonus}} USD</p>
+                <p class="balance-usd">{{profile.bonus}} USDT</p>
+            </div>
+            <div class="balance-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Balance</h3>
+                <p class="balance">${{profile.balance}} USD</p>
+                <p class="balance-usd">{{profile.balance}} USDT</p>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-card" id="price-chart">
+                <h3>Crypto Prices (24h)</h3>
+                <!-- TradingView Widget BEGIN -->
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/"
+                            rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on
+                                TradingView</span></a></div>
+                    <script type="text/javascript"
+                        src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                            {
+                                "title": "Cryptocurrencies",
+                                    "title_raw": "Cryptocurrencies",
+                                        "tabs": [
+                                            {
+                                                "title": "Overview",
+                                                "title_raw": "Overview",
+                                                "symbols": [
+                                                    {
+                                                        "s": "CRYPTOCAP:TOTAL"
+                                                    },
+                                                    {
+                                                        "s": "BITSTAMP:BTCUSD"
+                                                    },
+                                                    {
+                                                        "s": "BITSTAMP:ETHUSD"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:SOLUSD"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:AVAXUSD"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:UNIUSD"
+                                                    }
+                                                ],
+                                                "quick_link": {
+                                                    "title": "More cryptocurrencies",
+                                                    "href": "/markets/cryptocurrencies/prices-all/"
+                                                }
+                                            },
+                                            {
+                                                "title": "Bitcoin",
+                                                "title_raw": "Bitcoin",
+                                                "symbols": [
+                                                    {
+                                                        "s": "BITSTAMP:BTCUSD"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:BTCEUR"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:BTCGBP"
+                                                    },
+                                                    {
+                                                        "s": "BITFLYER:BTCJPY"
+                                                    },
+                                                    {
+                                                        "s": "BMFBOVESPA:BIT1!"
+                                                    }
+                                                ],
+                                                "quick_link": {
+                                                    "title": "More Bitcoin pairs",
+                                                    "href": "/symbols/BTCUSD/markets/"
+                                                }
+                                            },
+                                            {
+                                                "title": "Ethereum",
+                                                "title_raw": "Ethereum",
+                                                "symbols": [
+                                                    {
+                                                        "s": "BITSTAMP:ETHUSD"
+                                                    },
+                                                    {
+                                                        "s": "KRAKEN:ETHEUR"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:ETHGBP"
+                                                    },
+                                                    {
+                                                        "s": "BITFLYER:ETHJPY"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:ETHBTC"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:ETHUSDT"
+                                                    }
+                                                ],
+                                                "quick_link": {
+                                                    "title": "More Ethereum pairs",
+                                                    "href": "/symbols/ETHUSD/markets/"
+                                                }
+                                            },
+                                            {
+                                                "title": "Solana",
+                                                "title_raw": "Solana",
+                                                "symbols": [
+                                                    {
+                                                        "s": "COINBASE:SOLUSD"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:SOLEUR"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:SOLGBP"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:SOLBTC"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:SOLETH"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:SOLUSDT"
+                                                    }
+                                                ],
+                                                "quick_link": {
+                                                    "title": "More Solana pairs",
+                                                    "href": "/symbols/SOLUSD/markets/"
+                                                }
+                                            },
+                                            {
+                                                "title": "Uniswap",
+                                                "title_raw": "Uniswap",
+                                                "symbols": [
+                                                    {
+                                                        "s": "COINBASE:UNIUSD"
+                                                    },
+                                                    {
+                                                        "s": "KRAKEN:UNIEUR"
+                                                    },
+                                                    {
+                                                        "s": "COINBASE:UNIGBP"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:UNIBTC"
+                                                    },
+                                                    {
+                                                        "s": "KRAKEN:UNIETH"
+                                                    },
+                                                    {
+                                                        "s": "BINANCE:UNIUSDT"
+                                                    }
+                                                ],
+                                                "quick_link": {
+                                                    "title": "More Uniswap pairs",
+                                                    "href": "/symbols/UNIUSD/markets/"
+                                                }
+                                            }
+                                        ],
+                                            "title_link": "/markets/cryptocurrencies/prices-all/",
+                                                "width": "100%",
+                                                    "height": "100%",
+                                                        "showChart": true,
+                                                            "showFloatingTooltip": false,
+                                                                "locale": "en",
+                                                                    "plotLineColorGrowing": "#2962FF",
+                                                                        "plotLineColorFalling": "#2962FF",
+                                                                            "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
+                                                                                "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
+                                                                                    "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+                                                                                        "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+                                                                                            "gridLineColor": "rgba(240, 243, 250, 0)",
+                                                                                                "scaleFontColor": "rgba(120, 123, 134, 1)",
+                                                                                                    "showSymbolLogo": true,
+                                                                                                        "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
+                                                                                                            "colorTheme": "dark"
+                            }
+                        </script>
+                </div>
+                <!-- TradingView Widget END -->
+            </div>
+            <div class="side-chart">
+                <div class="chart-card" id="side-1">
+                    <h3>BTCUSDT Price (24h)</h3>
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript"
+                            src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
+                            async>
+                                {
+                                    "symbol": "BINANCE:BTCUSDT",
+                                        "width": "100%",
+                                            "height": "100%",
+                                                "locale": "en",
+                                                    "dateRange": "1D",
+                                                        "colorTheme": "dark",
+                                                            "trendLineColor": "rgba(152, 0, 255, 1)",
+                                                                "underLineColor": "rgba(152, 0, 255, 1)",
+                                                                    "underLineBottomColor": "rgba(0, 255, 255, 0)",
+                                                                        "isTransparent": false,
+                                                                            "autosize": true,
+                                                                                "largeChartUrl": "",
+                                                                                    "chartOnly": false,
+                                                                                        "noTimeScale": false
+                                }
+                            </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+                <div class="chart-card" id="side-2">
+                    <h3>ETHUSD Price (24h)</h3>
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript"
+                            src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
+                            async>
+                                {
+                                    "symbol": "BINANCE:ETHUSD",
+                                        "width": "100%",
+                                            "height": "100%",
+                                                "locale": "en",
+                                                    "dateRange": "1D",
+                                                        "colorTheme": "dark",
+                                                            "trendLineColor": "rgba(152, 0, 255, 1)",
+                                                                "underLineColor": "rgba(152, 0, 255, 1)",
+                                                                    "underLineBottomColor": "rgba(0, 255, 255, 0)",
+                                                                        "isTransparent": false,
+                                                                            "autosize": true,
+                                                                                "largeChartUrl": "",
+                                                                                    "chartOnly": false,
+                                                                                        "noTimeScale": false
+                                }
+                            </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main>
+</div>
+
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+
+
+{% endblock %}

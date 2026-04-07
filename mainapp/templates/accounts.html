@@ -1,0 +1,46 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Accounts{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="dashboard-main">
+    <section class="dashboard-section active">
+        <h2>Account Status</h2>
+
+        <div class="account-status-container">
+            <div class="account-card">
+                <div class="account-card-background"></div>
+                <div class="account-card-content">
+                    <div class="account-type">
+                        <i class="fas fa-star"></i>
+                        <h3>{{tier}} Account</h3>
+                    </div>
+                    <div class="account-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Basic Trading</li>
+                            <li><i class="fas fa-check"></i> Standard Support</li>
+                            <li><i class="fas fa-check"></i> Market Analysis</li>
+                            <li><i class="fas fa-check"></i> Regular Withdrawals</li>
+                        </ul>
+                    </div>
+                    <button class="upgrade-btn">
+                        Upgrade Account
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+    </section>
+</main>
+
+<script src="{% static 'js/accounts.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+
+{% endblock %}

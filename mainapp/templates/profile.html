@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - KryptoVerse</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="light-mode">
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-text">KryptoVerse</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#" id="logoutBtn">Logout</a>
+        </div>
+        <div class="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </div>
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="user-name">John Doe</h3>
+                <p class="user-email">john@example.com</p>
+            </div>
+            <nav class="dashboard-nav">
+                <a href="#overview" class="active" data-section="overview">
+                    <i class="fas fa-chart-line"></i> Overview
+                </a>
+                <a href="#deposit" data-section="deposit">
+                    <i class="fas fa-wallet"></i> Deposit Crypto
+                </a>
+                <a href="#withdraw" data-section="withdraw">
+                    <i class="fas fa-money-bill-transfer"></i> Withdraw
+                </a>
+                <a href="accounts.html" data-section="accounts" class="active">
+                    <i class="fas fa-user-circle"></i>
+                    Accounts
+                </a>
+                <a href="#settings" data-section="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <h2>Dashboard Overview</h2>
+                <div class="balance-cards">
+                    <div class="balance-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Invested</h3>
+                        <p class="balance">0.0000 LTC</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div>
+                    <div class="balance-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Profit</h3>
+                        <p class="balance">0.0000 LTC</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div>
+                    <div class="balance-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Bonus</h3>
+                        <p class="balance">0.0000 LTC</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div>
+                    <div class="balance-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Balance</h3>
+                        <p class="balance">0.0000 LTC</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div>
+                    <!-- <div class="balance-card">
+                        <i class="fab fa-bitcoin"></i>
+                        <h3>Bitcoin</h3>
+                        <p class="balance">0.0000 BTC</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div>
+                    <div class="balance-card">
+                        <i class="fab fa-ethereum"></i>
+                        <h3>Ethereum</h3>
+                        <p class="balance">0.0000 ETH</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div>
+                    <div class="balance-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Litecoin</h3>
+                        <p class="balance">0.0000 LTC</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div>
+                    <div class="balance-card">
+                        <i class="fas fa-coins"></i>
+                        <h3>Dogecoin</h3>
+                        <p class="balance">0.0000 DOGE</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </div> -->
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card" id="price-chart">
+                        <h3>Crypto Prices (24h)</h3>
+                        <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/"
+                                    rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on
+                                        TradingView</span></a></div>
+                            <script type="text/javascript"
+                                src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js"
+                                async>
+                                    {
+                                        "title": "Cryptocurrencies",
+                                            "title_raw": "Cryptocurrencies",
+                                                "tabs": [
+                                                    {
+                                                        "title": "Overview",
+                                                        "title_raw": "Overview",
+                                                        "symbols": [
+                                                            {
+                                                                "s": "CRYPTOCAP:TOTAL"
+                                                            },
+                                                            {
+                                                                "s": "BITSTAMP:BTCUSD"
+                                                            },
+                                                            {
+                                                                "s": "BITSTAMP:ETHUSD"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:SOLUSD"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:AVAXUSD"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:UNIUSD"
+                                                            }
+                                                        ],
+                                                        "quick_link": {
+                                                            "title": "More cryptocurrencies",
+                                                            "href": "/markets/cryptocurrencies/prices-all/"
+                                                        }
+                                                    },
+                                                    {
+                                                        "title": "Bitcoin",
+                                                        "title_raw": "Bitcoin",
+                                                        "symbols": [
+                                                            {
+                                                                "s": "BITSTAMP:BTCUSD"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:BTCEUR"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:BTCGBP"
+                                                            },
+                                                            {
+                                                                "s": "BITFLYER:BTCJPY"
+                                                            },
+                                                            {
+                                                                "s": "BMFBOVESPA:BIT1!"
+                                                            }
+                                                        ],
+                                                        "quick_link": {
+                                                            "title": "More Bitcoin pairs",
+                                                            "href": "/symbols/BTCUSD/markets/"
+                                                        }
+                                                    },
+                                                    {
+                                                        "title": "Ethereum",
+                                                        "title_raw": "Ethereum",
+                                                        "symbols": [
+                                                            {
+                                                                "s": "BITSTAMP:ETHUSD"
+                                                            },
+                                                            {
+                                                                "s": "KRAKEN:ETHEUR"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:ETHGBP"
+                                                            },
+                                                            {
+                                                                "s": "BITFLYER:ETHJPY"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:ETHBTC"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:ETHUSDT"
+                                                            }
+                                                        ],
+                                                        "quick_link": {
+                                                            "title": "More Ethereum pairs",
+                                                            "href": "/symbols/ETHUSD/markets/"
+                                                        }
+                                                    },
+                                                    {
+                                                        "title": "Solana",
+                                                        "title_raw": "Solana",
+                                                        "symbols": [
+                                                            {
+                                                                "s": "COINBASE:SOLUSD"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:SOLEUR"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:SOLGBP"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:SOLBTC"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:SOLETH"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:SOLUSDT"
+                                                            }
+                                                        ],
+                                                        "quick_link": {
+                                                            "title": "More Solana pairs",
+                                                            "href": "/symbols/SOLUSD/markets/"
+                                                        }
+                                                    },
+                                                    {
+                                                        "title": "Uniswap",
+                                                        "title_raw": "Uniswap",
+                                                        "symbols": [
+                                                            {
+                                                                "s": "COINBASE:UNIUSD"
+                                                            },
+                                                            {
+                                                                "s": "KRAKEN:UNIEUR"
+                                                            },
+                                                            {
+                                                                "s": "COINBASE:UNIGBP"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:UNIBTC"
+                                                            },
+                                                            {
+                                                                "s": "KRAKEN:UNIETH"
+                                                            },
+                                                            {
+                                                                "s": "BINANCE:UNIUSDT"
+                                                            }
+                                                        ],
+                                                        "quick_link": {
+                                                            "title": "More Uniswap pairs",
+                                                            "href": "/symbols/UNIUSD/markets/"
+                                                        }
+                                                    }
+                                                ],
+                                                    "title_link": "/markets/cryptocurrencies/prices-all/",
+                                                        "width": "100%",
+                                                            "height": "100%",
+                                                                "showChart": true,
+                                                                    "showFloatingTooltip": false,
+                                                                        "locale": "en",
+                                                                            "plotLineColorGrowing": "#2962FF",
+                                                                                "plotLineColorFalling": "#2962FF",
+                                                                                    "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
+                                                                                        "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
+                                                                                            "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+                                                                                                "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+                                                                                                    "gridLineColor": "rgba(240, 243, 250, 0)",
+                                                                                                        "scaleFontColor": "rgba(120, 123, 134, 1)",
+                                                                                                            "showSymbolLogo": true,
+                                                                                                                "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
+                                                                                                                    "colorTheme": "dark"
+                                    }
+                                </script>
+                        </div>
+                        <!-- TradingView Widget END -->
+                    </div>
+                    <div class="side-chart">
+                        <div class="chart-card" id="side-1">
+                            <h3>BTCUSDT Price (24h)</h3>
+                            <!-- TradingView Widget BEGIN -->
+                            <div class="tradingview-widget-container">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript"
+                                    src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
+                                    async>
+                                        {
+                                            "symbol": "BINANCE:BTCUSDT",
+                                                "width": "100%",
+                                                    "height": "100%",
+                                                        "locale": "en",
+                                                            "dateRange": "1D",
+                                                                "colorTheme": "dark",
+                                                                    "trendLineColor": "rgba(152, 0, 255, 1)",
+                                                                        "underLineColor": "rgba(152, 0, 255, 1)",
+                                                                            "underLineBottomColor": "rgba(0, 255, 255, 0)",
+                                                                                "isTransparent": false,
+                                                                                    "autosize": true,
+                                                                                        "largeChartUrl": "",
+                                                                                            "chartOnly": false,
+                                                                                                "noTimeScale": false
+                                        }
+                                    </script>
+                            </div>
+                            <!-- TradingView Widget END -->
+                        </div>
+                        <div class="chart-card" id="side-2">
+                            <h3>ETHUSD Price (24h)</h3>
+                            <!-- TradingView Widget BEGIN -->
+                            <div class="tradingview-widget-container">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript"
+                                    src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
+                                    async>
+                                        {
+                                            "symbol": "BINANCE:ETHUSD",
+                                                "width": "100%",
+                                                    "height": "100%",
+                                                        "locale": "en",
+                                                            "dateRange": "1D",
+                                                                "colorTheme": "dark",
+                                                                    "trendLineColor": "rgba(152, 0, 255, 1)",
+                                                                        "underLineColor": "rgba(152, 0, 255, 1)",
+                                                                            "underLineBottomColor": "rgba(0, 255, 255, 0)",
+                                                                                "isTransparent": false,
+                                                                                    "autosize": true,
+                                                                                        "largeChartUrl": "",
+                                                                                            "chartOnly": false,
+                                                                                                "noTimeScale": false
+                                        }
+                                    </script>
+                            </div>
+                            <!-- TradingView Widget END -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Withdraw Section -->
+            <section id="withdraw" class="dashboard-section">
+                <h2>Withdraw Funds</h2>
+                <div class="balance-cards">
+                    <a href="withdraw-btc.html" class="balance-card clickable">
+                        <i class="fab fa-bitcoin"></i>
+                        <h3>Withdraw via BTC</h3>
+                        <p class="balance">Available Balance</p>
+                        <p class="balance-usd">0.0000 BTC</p>
+                    </a>
+                    <a href="withdraw-bank.html" class="balance-card clickable">
+                        <i class="fas fa-building-columns"></i>
+                        <h3>Withdraw via Bank</h3>
+                        <p class="balance">Available Balance</p>
+                        <p class="balance-usd">$0.00 USD</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Deposit Section -->
+            <section id="deposit" class="dashboard-section">
+                <h2>Deposit Cryptocurrency</h2>
+                <div class="deposit-options">
+                    <div class="deposit-card" data-crypto="btc">
+                        <i class="fab fa-bitcoin"></i>
+                        <h3>Bitcoin</h3>
+                        <button class="btn primary deposit-btn">Deposit BTC</button>
+                    </div>
+                    <div class="deposit-card" data-crypto="eth">
+                        <i class="fab fa-ethereum"></i>
+                        <h3>Ethereum</h3>
+                        <button class="btn primary deposit-btn">Deposit ETH</button>
+                    </div>
+                    <div class="deposit-card" data-crypto="ltc">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Litecoin</h3>
+                        <button class="btn primary deposit-btn">Deposit LTC</button>
+                    </div>
+                    <div class="deposit-card" data-crypto="doge">
+                        <i class="fas fa-coins"></i>
+                        <h3>Dogecoin</h3>
+                        <button class="btn primary deposit-btn">Deposit DOGE</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transfer Section -->
+            <section id="transfer" class="dashboard-section">
+                <h2>Bank Transfer</h2>
+                <div class="transfer-container">
+                    <form id="transferForm" class="transfer-form">
+                        <div class="form-group">
+                            <label for="bankName">Bank Name</label>
+                            <input type="text" id="bankName" required placeholder="Enter bank name">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber">Account Number</label>
+                            <input type="text" id="accountNumber" required placeholder="Enter account number">
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount (USD)</label>
+                            <input type="number" id="amount" required placeholder="Enter amount">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" placeholder="Enter transfer description"></textarea>
+                        </div>
+                        <button type="submit" class="btn primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Transfer
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="dashboard-section">
+                <h2>Account Settings</h2>
+                <div class="settings-container">
+                    <form id="settingsForm" class="settings-form">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" value="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailSettings">Email</label>
+                            <input type="email" id="emailSettings" value="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Enter phone number">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="notifications" checked>
+                                Enable Email Notifications
+                            </label>
+                        </div>
+                        <button type="submit" class="btn primary">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Deposit <span class="crypto-name">Bitcoin</span></h2>
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=your-wallet-address"
+                    alt="QR Code">
+            </div>
+            <div class="wallet-address">
+                <p>Wallet Address:</p>
+                <div class="address-copy">
+                    <input type="text" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" readonly>
+                    <button class="copy-btn">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="deposit-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Send only <span class="crypto-name">Bitcoin</span> to this address. Sending any other cryptocurrency
+                    may result in permanent loss.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+
+</html>

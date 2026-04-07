@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}KryptoVerse{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="light-mode">
+
+    <!-- ── Domain Change Announcement Banner ── -->
+    <div id="announcement-banner" class="announcement-banner" role="alert" aria-live="polite">
+        <div class="announcement-inner">
+            <span class="announcement-icon"><i class="fas fa-bullhorn"></i></span>
+            <p class="announcement-text">
+                <strong>Important Notice:</strong>
+                We will be migrating to a new domain soon.
+                Please update your bookmarks to
+                <a href="https://kryptoversehq.com" target="_blank" rel="noopener">kryptoversehq.com</a>
+                — your account and data remain fully intact.
+            </p>
+            <button class="announcement-close" id="closeBanner" aria-label="Dismiss notice">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .announcement-banner {
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            box-shadow: 0 2px 12px rgba(79, 70, 229, 0.4);
+            animation: bannerSlideDown 0.4s ease-out both;
+        }
+
+        @keyframes bannerSlideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0);     opacity: 1; }
+        }
+
+        .announcement-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .announcement-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+        .announcement-text {
+            flex: 1;
+            margin: 0;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .announcement-text a {
+            color: #fff;
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .announcement-text a:hover { opacity: 0.85; }
+
+        .announcement-close {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s ease;
+            font-size: 0.78rem;
+        }
+
+        .announcement-close:hover { background: rgba(255,255,255,0.35); }
+
+        .announcement-banner.hidden { display: none; }
+
+        @media (max-width: 600px) {
+            .announcement-text { font-size: 0.8rem; }
+        }
+    </style>
+
+    <script>
+        (function () {
+            var banner = document.getElementById('announcement-banner');
+            if (localStorage.getItem('kv_domain_notice_dismissed') === '1') {
+                banner.classList.add('hidden');
+            }
+            document.getElementById('closeBanner').addEventListener('click', function () {
+                banner.classList.add('hidden');
+                localStorage.setItem('kv_domain_notice_dismissed', '1');
+            });
+        })();
+    </script>
+
+    <!-- Moving Animated Background Shapes -->
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-cube logo-icon"></i>
+            <span class="logo-text">KryptoVerse</span>
+        </div>
+        <div class="nav-links" style="visibility: visible;">
+            <a href="{% url 'index' %}" {% if request.resolver_match.url_name == 'index' %}class="active"{% endif %}>
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'login' %}" {% if request.resolver_match.url_name == 'login' %}class="active"{% endif %}>
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <a href="{% url 'signup' %}" {% if request.resolver_match.url_name == 'signup' %}class="active"{% endif %}>
+                <i class="fas fa-user-plus"></i> Sign Up
+            </a>
+            <a href="{% url 'contact' %}" {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}>
+                <i class="fas fa-envelope"></i> Contact
+            </a>
+        </div>
+        <div class="nav-actions">
+            <div class="theme-toggle" title="Toggle Theme">
+                <i class="fas fa-moon"></i>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="fade-in-up">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>KryptoVerse</h4>
+                <p>Your trusted crypto trading platform</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="{% url 'index' %}#about">About Us</a>
+                <a href="{% url 'contact' %}">Contact</a>
+                <a href="{% url 'terms' %}">Terms of Service</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} KryptoVerse. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script></script>
+    {% block scripts %}
+    <!-- <script src="{% static 'js/theme.js' %}"></script> -->
+    {% endblock %}
+</body>
+</html>
