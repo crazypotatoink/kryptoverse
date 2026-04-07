@@ -24,7 +24,7 @@ SECRET_KEY = '7301ed25d579cd22e4459c943ea2cbe40fdc48a9c42d63839ac2b7679f65d2fdcd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "kryptoverse.pro"]
+ALLOWED_HOSTS = ["127.0.0.1", "kryptoversehq.com"]
 
 # Application definition
 INSTALLED_APPS = [
